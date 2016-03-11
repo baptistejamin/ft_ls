@@ -6,19 +6,20 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:32:37 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 19:48:39 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/11 20:32:47 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_ls.h>
 #include <stdio.h>
 
-t_file	*ft_ls_init_file(int level)
+t_file	*ft_ls_init_file(t_ls *ls, int level)
 {
 	t_file *file;
 
 	file = (t_file *)malloc(sizeof(t_file));
 	file->files = NULL;
+	file->ls = ls;
 	file->level = level;
 	return (file);
 }
@@ -57,7 +58,7 @@ void	ft_ls_read_path(t_ls *ls, t_list **list, char *name, char *path_name, int l
 
 	struct dirent *dirent;
 
-	file = ft_ls_init_file(level);
+	file = ft_ls_init_file(ls, level);
 	file->path_name = path_name;
 	file->name = name;
 	file->exists = (stat(path_name, &file->stat) == -1) ? 0 : 1;

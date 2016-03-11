@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 19:48:33 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/11 20:31:58 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct	s_file {
 	t_type 				type;
 	DIR 					*dir;
 	t_list 				*files;
+	t_ls 					*ls;
 }								t_file;
 
 void						ft_ls_read(t_ls *ls, int ac, char **av);
