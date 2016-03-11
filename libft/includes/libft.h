@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjamin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 14:18:30 by bjamin            #+#    #+#             */
-/*   Updated: 2016/02/23 14:19:03 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/11 19:20:17 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void				ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*ft_lstnew(void const *content, size_t content_size);
+void 				ft_lstsort(t_list** list, 
+	int (*cmp)(void *_a, void *_b), void *(*get_data)(t_list *e));
 int					ft_nblen(int nb);
 void				ft_swap(int *a, int *b);
 int					ft_get_min(int a, int b);

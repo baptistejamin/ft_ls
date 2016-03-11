@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:32:37 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 18:45:41 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/11 19:37:38 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,24 @@ int 	__can_walk(t_ls *ls, t_file *file)
 	return (0);
 }
 
+
+void	*get_name(t_list *elem)
+{
+	t_file *file;
+	file = elem->content;
+	return (file->name);
+}
+
+int		cmp_asc(void *a, void *b)
+{
+	return (ft_strcmp((char *)a, (char *)b) < 0);
+}
+
+void 	sort_by_name(t_list **list)
+{
+	ft_lstsort(list, &cmp_asc, &get_name);
+}
+
 void	ft_ls_read_path(t_ls *ls, t_list **list, char *name, char *path_name, int level)
 {
 	t_file *file;
@@ -63,8 +81,6 @@ void	ft_ls_read_path(t_ls *ls, t_list **list, char *name, char *path_name, int l
 	file->exists = (stat(path_name, &file->stat) == -1) ? 0 : 1;
 	file->dir = opendir(path_name);
 	ft_ls_get_type(file);
-	//printf("path = %s\n", path_name);
-
 	if (file->type.is_dir && file->dir && __can_walk(ls, file))
 	{
 		while ((dirent = readdir(file->dir)) != NULL) {
@@ -76,6 +92,7 @@ void	ft_ls_read_path(t_ls *ls, t_list **list, char *name, char *path_name, int l
 	}
 	new = ft_lstnew(file, sizeof(t_file));
 	ft_lstadd(list, new);
+	sort_by_name(list);
 }
 
 void	ft_ls_read(t_ls *ls, int ac, char **av)

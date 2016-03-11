@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bjamin <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 12:39:51 by bjamin            #+#    #+#              #
-#    Updated: 2015/12/10 12:47:05 by bjamin           ###   ########.fr        #
+#    Updated: 2016/03/11 19:11:54 by bjamin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ _SRC			= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 					ft_putnbr_fd.c ft_lstadd.c ft_lstdel.c ft_lstdelone.c \
 					ft_lstiter.c ft_lstmap.c ft_lstnew.c ft_nblen.c \
 					ft_swap.c ft_show_tab.c ft_sqrt.c ft_strcut.c \
-					ft_strfjoin.c get_next_line.c
+					ft_strfjoin.c get_next_line.c ft_lstsort.c
 
 SRC				= $(addprefix srcs/,$(_SRC))
 O_FILES		= $(patsubst %.c,%.o, $(_SRC))
