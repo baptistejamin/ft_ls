@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 18:42:43 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/11 19:48:33 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ void 						ft_ls_parse_options(t_ls *ls, int ac, char **av);
 void 						ft_ls_debug_options(t_ls *ls);
 void 						ft_ls_errors_wrong_option(char option);
 void 						ft_ls_errors_usage();
+void						ft_ls_sort(t_ls *ls, t_list **list);
 
 #endif

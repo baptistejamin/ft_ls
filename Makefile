@@ -13,7 +13,7 @@
 #Define the program
 NAME			= ft_ls
 _SRC			= ft_ls.c ft_ls_debug.c ft_ls_options.c  ft_ls_errors.c \
-					ft_ls_read.c
+					ft_ls_read.c ft_ls_sort.c
 
 SRC				= $(addprefix srcs/,$(_SRC))
 INCLUDE   		= includes
