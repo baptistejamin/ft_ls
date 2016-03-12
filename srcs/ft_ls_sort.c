@@ -13,34 +13,35 @@
 #include <ft_ls.h>
 #include <stdio.h>
 
-void	*get_name(t_list *elem)
-{
-	t_file *file;
-	file = elem->content;
-	return (file->name);
-}
-
 void	*get_time(t_list *elem)
 {
 	t_file *file;
+
 	file = elem->content;
 	return (&file->stat.st_mtime);
 }
 
+int		time_asc(void *a, void *b)
+{
+	time_t time_a;
+	time_t time_b;
+
+	time_a = *(time_t*)a;
+	time_b = *(time_t*)b;
+	return (time_a > time_b);
+}
+
+void	*get_name(t_list *elem)
+{
+	t_file *file;
+
+	file = elem->content;
+	return (file->name);
+}
 
 int		cmp_asc(void *a, void *b)
 {
 	return (ft_strcmp((char *)a, (char *)b) < 0);
-}
-
-int		time_asc(void *a, void *b)
-{
-	time_t time1;
-	time_t time2;
-
-	time1 = *(time_t*)a;
-	time2 = *(time_t*)b;
-	return (time1 > time2);
 }
 
 void	ft_ls_sort(t_ls *ls, t_list **list)

@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 20:31:58 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 19:59:50 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,38 +30,39 @@ typedef struct	s_ls_options {
 
 typedef struct	s_ls {
 	t_ls_options	options;
-	int 					args_start_index;
-	t_list 				*files;
+	int						args_start_index;
+	t_list				*files;
+	int						n_files;
 }								t_ls;
 
-typedef struct	s_type {
-	int						is_file;
-	int						is_dir;
-	int						is_char;
-	int						is_block;
-	int						is_fifo;
-	int						is_link;
-	int						is_sock;
-}								t_type;
+enum	e_type {
+	IS_FILE = S_IFREG,
+	IS_DIR = S_IFDIR,
+	IS_CHAR = S_IFCHR,
+	IS_BLOCK = S_IFBLK,
+	IS_FIFO = S_IFIFO,
+	IS_LINK = S_IFLNK,
+	IS_SOCK = S_IFSOCK
+};
 
 typedef struct	s_file {
-	int 					level;
+	int						level;
 	char					*name;
 	char					*path_name;
-	int 					exists;
-	struct 				stat stat;
-	t_type 				type;
-	DIR 					*dir;
-	t_list 				*files;
-	t_ls 					*ls;
+	int						exists;
+	struct stat		stat;
+	enum e_type		type;
+	DIR						*dir;
+	t_list				*files;
+	t_ls					*ls;
 }								t_file;
 
 void						ft_ls_read(t_ls *ls, int ac, char **av);
-void 						ft_ls_init_options(t_ls *ls);
-void 						ft_ls_parse_options(t_ls *ls, int ac, char **av);
-void 						ft_ls_debug_options(t_ls *ls);
-void 						ft_ls_errors_wrong_option(char option);
-void 						ft_ls_errors_usage();
+void						ft_ls_init_options(t_ls *ls);
+void						ft_ls_parse_options(t_ls *ls, int ac, char **av);
+void						ft_ls_debug_options(t_ls *ls);
+void						ft_ls_errors_wrong_option(char option);
+void						ft_ls_errors_usage();
 void						ft_ls_sort(t_ls *ls, t_list **list);
 
 #endif

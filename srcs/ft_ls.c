@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 20:53:40 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 19:59:11 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,30 @@
 int		ft_ls_init_env(t_ls *ls)
 {
 	ls->files = NULL;
+	ls->n_files = 1;
 	return (1);
 }
 
-int 	__can_show(t_file *file)
+void	show_total(int total)
 {
-	if (file->level == 0 && ft_strcmp(file->name, ".") == 0)
-		return (1);
-	if (!file->ls->options.is_all_files && *(file->name) == '.')
-		return (0);
-	return (1);
+	ft_putstr("total ");
+	ft_putnbr(total);
+	ft_putstr("\n");
 }
 
-void	show(t_list *elem)
+int		get_total(t_list *elem)
 {
-	t_file *file;	
-	file = elem->content;
+	t_file	*file;
+	int			total;
 
-	if (!__can_show(file))
-		return ;
-	if (file->type.is_dir && file->files){
-		printf("\n%s:\n", file->path_name);
-		ft_lstiter(file->files, &show);
+	total = 0;
+	while (elem)
+	{
+		file = elem->content;
+		elem = elem->next;
+		total += file->stat.st_blocks;
 	}
-	else
-		printf("%s\n", file->name);
+	return (total);
 }
 
 int		main(int ac, char **av)
@@ -50,8 +49,7 @@ int		main(int ac, char **av)
 	ft_ls_init_env(&ls);
 	ft_ls_init_options(&ls);
 	ft_ls_parse_options(&ls, ac, av);
-	ft_ls_debug_options(&ls);
+	//ft_ls_debug_options(&ls);
 	ft_ls_read(&ls, ac, av);
-	ft_lstiter(ls.files, &show);
 	return (0);
 }
