@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:32:37 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 22:12:35 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 23:09:51 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_file	*ft_ls_init_file(t_ls *ls, int level, char *path)
 	file->exists = (stat(path, &file->stat) == -1) ? 0 : 1;
 	file->dir = opendir(path);
 	file->type = file->stat.st_mode & S_IFMT;
+	file->has_permission = 1;
 	return (file);
 }
 
@@ -56,14 +57,16 @@ void	ft_ls_read(t_ls *ls, t_list **list, char *path, int level, int should_walk)
 	t_list					*new;
 
 	file = ft_ls_init_file(ls, level, path);
-	while (file->type == IS_DIR && file->dir &&
-		ft_can_walk(file) && (dirent = readdir(file->dir)) != NULL)
+	while (file->type == IS_DIR && file->dir && ft_can_walk(file) &&
+		(dirent = readdir(file->dir)) != NULL)
 	{
 		new_path = ft_strnew(1);
 		new_path = ft_strjoin(path, "/");
 		new_path = ft_strfjoin(new_path, dirent->d_name);
 		ft_ls_read(ls, &(file->files), new_path, level + 1, should_walk);
 	}
+	if (file->dir == NULL && file->type == IS_DIR)
+		file->has_permission = 0;
 	if (file->dir)
 		closedir(file->dir);
 	ft_ls_sort(ls, &(file->files));

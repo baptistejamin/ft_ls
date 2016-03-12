@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 22:09:43 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 22:59:01 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct	s_file {
 	char					*name;
 	char					*path;
 	int						exists;
+	int						has_permission;
 	struct stat		stat;
 	enum e_type		type;
 	DIR						*dir;
@@ -65,13 +66,13 @@ void						ft_ls_parse_options(t_ls *ls, int ac, char **av);
 void						ft_ls_debug_options(t_ls *ls);
 void						ft_ls_errors_wrong_option(char option);
 void						ft_ls_errors_usage();
+void						ft_ls_errors_no_exists(t_file *file);
+void						ft_ls_errors_no_permission(t_file *file);
 void						ft_ls_read(t_ls *ls, t_list **list, char *path, int level,
 									int should_walk);
 void						ft_ls_sort(t_ls *ls, t_list **list);
 void						ft_simple_show(t_list *elem);
 void						*get_name(t_list *elem);
 int							cmp_asc(void *a, void *b);
-
-
 
 #endif

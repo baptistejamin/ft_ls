@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 22:42:53 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 22:48:14 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		get_total(t_list *elem)
 
 int		main(int ac, char **av)
 {
-	t_list	ls;
+	t_ls	ls;
 	t_file	*file;
 
 	ft_ls_init_env(&ls);

@@ -27,6 +27,10 @@ void	ft_simple_show(t_list *elem)
 	t_file *file;
 
 	file = elem->content;
+	if (!file->exists)
+		return (ft_ls_errors_no_exists(file));
+	if (file->type == IS_DIR && !file->has_permission)
+		return (ft_ls_errors_no_permission(file));
 	if (!ft_can_show(file))
 		return ;
 	if (file->type == IS_DIR && file->files)
