@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/26 15:36:49 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 17:21:40 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 21:21:21 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	ft_ls_debug_options(t_ls *ls)
 {
-		ft_putstr("##### ft_ls_debug_options #####\n");
+	ft_putstr("##### ft_ls_debug_options #####\n");
 	if (ls->options.is_full_show)
 		ft_putstr("ls->options.is_full_show (-l)\n");
-	if (ls->options.is_resursive)
-		ft_putstr("ls->options.is_resursive (-R)\n");
+	if (ls->options.is_recursive)
+		ft_putstr("ls->options.is_recursive (-R)\n");
 	if (ls->options.is_all_files)
 		ft_putstr("ls->options.is_all_files (-a)\n");
 	if (ls->options.is_reverse)

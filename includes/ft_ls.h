@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 19:59:50 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 21:38:19 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 typedef struct	s_ls_options {
 	int						is_full_show;
-	int						is_resursive;
+	int						is_recursive;
 	int						is_all_files;
 	int						is_reverse;
 	int						is_ordered_by_time;
@@ -48,7 +48,7 @@ enum	e_type {
 typedef struct	s_file {
 	int						level;
 	char					*name;
-	char					*path_name;
+	char					*path;
 	int						exists;
 	struct stat		stat;
 	enum e_type		type;
@@ -57,12 +57,17 @@ typedef struct	s_file {
 	t_ls					*ls;
 }								t_file;
 
-void						ft_ls_read(t_ls *ls, int ac, char **av);
+void						ft_ls_parse_files(t_ls *ls, int ac, char **av);
 void						ft_ls_init_options(t_ls *ls);
 void						ft_ls_parse_options(t_ls *ls, int ac, char **av);
 void						ft_ls_debug_options(t_ls *ls);
 void						ft_ls_errors_wrong_option(char option);
 void						ft_ls_errors_usage();
 void						ft_ls_sort(t_ls *ls, t_list **list);
+void						ft_simple_show(t_list *elem);
+void						*get_name(t_list *elem);
+int							cmp_asc(void *a, void *b);
+
+
 
 #endif

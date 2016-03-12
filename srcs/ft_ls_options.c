@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:13:52 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 20:25:00 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 21:20:26 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_ls_init_options(t_ls *ls)
 {
 	ls->options.is_full_show = 0;
-	ls->options.is_resursive = 0;
+	ls->options.is_recursive = 0;
 	ls->options.is_all_files = 0;
 	ls->options.is_reverse = 0;
 	ls->options.is_ordered_by_time = 0;
@@ -26,7 +26,7 @@ int		ft_ls_parse_options_helper(t_ls *ls, char option)
 	if (option == 'l')
 		ls->options.is_full_show = 1;
 	else if (option == 'R')
-		ls->options.is_resursive = 1;
+		ls->options.is_recursive = 1;
 	else if (option == 'a')
 		ls->options.is_all_files = 1;
 	else if (option == 'r')

@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 19:59:11 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 21:12:04 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int		main(int ac, char **av)
 	ft_ls_init_options(&ls);
 	ft_ls_parse_options(&ls, ac, av);
 	//ft_ls_debug_options(&ls);
-	ft_ls_read(&ls, ac, av);
+	ft_ls_parse_files(&ls, ac, av);
 	return (0);
 }
