@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 21:38:19 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 22:09:43 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct	s_ls_options {
 typedef struct	s_ls {
 	t_ls_options	options;
 	int						args_start_index;
+	t_list				*non_folders;
+	t_list				*folders;
 	t_list				*files;
 	int						n_files;
 }								t_ls;
@@ -63,6 +65,8 @@ void						ft_ls_parse_options(t_ls *ls, int ac, char **av);
 void						ft_ls_debug_options(t_ls *ls);
 void						ft_ls_errors_wrong_option(char option);
 void						ft_ls_errors_usage();
+void						ft_ls_read(t_ls *ls, t_list **list, char *path, int level,
+									int should_walk);
 void						ft_ls_sort(t_ls *ls, t_list **list);
 void						ft_simple_show(t_list *elem);
 void						*get_name(t_list *elem);

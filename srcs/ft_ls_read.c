@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:32:37 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 21:43:18 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/12 22:12:35 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,19 @@ void	ft_ls_read(t_ls *ls, t_list **list, char *path, int level, int should_walk)
 void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
 {
 	int			i;
-	t_list	*non_folders;
-	t_list	*folders;
 	t_file	*file;
 	t_list	*new;
 
+	new = NULL;
 	i = ls->args_start_index;
 	if (ac == 1)
 	{
-		ft_ls_read(ls, &(ls->files), ".", 0, 1);
+		file = ft_ls_init_file(ls, 0, ".");
+		new = ft_lstnew(file, sizeof(t_file));
+		ft_lstadd(&(ls->folders), new);
 		return ;
 	}
 	ls->n_files = ac - i;
-	non_folders = NULL;
-	folders = NULL;
 	while (i < ac)
 	{
 		if (ft_strcmp(av[i], "--") == 0)
@@ -98,23 +97,9 @@ void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
 			file = ft_ls_init_file(ls, 0, av[i]);
 		new = ft_lstnew(file, sizeof(t_file));
 		if (file->type == IS_DIR)
-			ft_lstadd(&folders, new);
+			ft_lstadd(&(ls->folders), new);
 		else
-			ft_lstadd(&non_folders, new);
+			ft_lstadd(&(ls->non_folders), new);
 		i++;
-	}
-	ft_lstsort(&non_folders, &cmp_asc, &get_name);
-	ft_lstsort(&folders, &cmp_asc, &get_name);
-	while (non_folders)
-	{
-		file = (t_file *)non_folders->content;
-		ft_ls_read(ls, &(ls->files), file->path, 0, 0);
-		non_folders = non_folders->next;
-	}
-	while (folders)
-	{
-		file = (t_file *)folders->content;
-		ft_ls_read(ls, &(ls->files), file->path, 0, 1);
-		folders = folders->next;
 	}
 }
