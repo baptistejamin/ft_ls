@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 22:48:14 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/14 14:58:58 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int		main(int ac, char **av)
 	while (ls.non_folders)
 	{
 		file = (t_file *)ls.non_folders->content;
-		ft_ls_read(&ls, &(ls.files), file->path, 0, 0);
+		ft_ls_read(&ls, &(ls.files), file->name, file->path, 0, 0);
 		ls.non_folders = ls.non_folders->next;
 	}
 	while (ls.folders)
 	{
 		file = (t_file *)ls.folders->content;
-		ft_ls_read(&ls, &(ls.files), file->path, 0, 1);
+		ft_ls_read(&ls, &(ls.files), file->name, file->path, 0, 1);
 		ls.folders = ls.folders->next;
 	}
 	return (0);

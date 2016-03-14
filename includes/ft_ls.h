@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/12 22:59:01 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/14 15:03:43 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ void						ft_ls_errors_wrong_option(char option);
 void						ft_ls_errors_usage();
 void						ft_ls_errors_no_exists(t_file *file);
 void						ft_ls_errors_no_permission(t_file *file);
-void						ft_ls_read(t_ls *ls, t_list **list, char *path, int level,
-									int should_walk);
+void						ft_ls_read(t_ls *ls, t_list **list, char *name, char *path, int level, int should_walk);
 void						ft_ls_sort(t_ls *ls, t_list **list);
 void						ft_simple_show(t_list *elem);
 void						*get_name(t_list *elem);
