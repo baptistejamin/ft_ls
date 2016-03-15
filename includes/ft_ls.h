@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/15 13:07:26 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/15 13:49:49 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ enum	e_type {
 };
 
 typedef struct	s_file {
-	int						level;
+	int						first_level;
 	char					*name;
 	char					*path;
 	int						exists;
