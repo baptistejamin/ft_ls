@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/14 15:03:43 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/15 13:07:26 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	s_ls_options {
 typedef struct	s_ls {
 	t_ls_options	options;
 	int						args_start_index;
+	int 					first_processed;
 	t_list				*non_folders;
 	t_list				*folders;
 	t_list				*files;
@@ -68,9 +69,12 @@ void						ft_ls_errors_wrong_option(char option);
 void						ft_ls_errors_usage();
 void						ft_ls_errors_no_exists(t_file *file);
 void						ft_ls_errors_no_permission(t_file *file);
-void						ft_ls_read(t_ls *ls, t_list **list, char *name, char *path, int level, int should_walk);
+void						ft_ls_read_dir(t_list *elem);
+//void						ft_ls_read_dir(t_ls *ls, t_list **list, char *name, char *path, int level);
 void						ft_ls_sort(t_ls *ls, t_list **list);
-void						ft_simple_show(t_list *elem);
+void						ft_show_dir(t_list *elem);
+void						ft_show_file(t_list *elem);
+void						ft_process_files(t_list *elem);
 void						*get_name(t_list *elem);
 int							cmp_asc(void *a, void *b);
 

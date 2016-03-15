@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcut.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjamin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/24 13:17:16 by bjamin            #+#    #+#             */
-/*   Updated: 2016/02/23 14:21:38 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/14 18:59:00 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 #include <stdlib.h>
 
 char	*ft_strcut_base(char *str, char c)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjamin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/04 11:13:38 by bjamin            #+#    #+#             */
-/*   Updated: 2015/12/04 11:19:13 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/14 18:59:02 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 #include <stdlib.h>
 
 void __back_split(t_list *src, t_list **head, t_list **back)

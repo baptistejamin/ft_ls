@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 14:06:11 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/14 14:58:58 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/15 13:10:37 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		main(int ac, char **av)
 {
 	t_ls	ls;
 	t_file	*file;
+	t_list *cur;
 
 	ft_ls_init_env(&ls);
 	ft_ls_init_options(&ls);
@@ -54,17 +55,19 @@ int		main(int ac, char **av)
 	ft_ls_parse_files(&ls, ac, av);
 	ft_lstsort(&(ls.non_folders), &cmp_asc, &get_name);
 	ft_lstsort(&(ls.folders), &cmp_asc, &get_name);
-	while (ls.non_folders)
+
+	cur = ls.non_folders;
+	while (cur)
 	{
-		file = (t_file *)ls.non_folders->content;
-		ft_ls_read(&ls, &(ls.files), file->name, file->path, 0, 0);
-		ls.non_folders = ls.non_folders->next;
+		ft_show_file(cur);
+		cur = cur->next;
 	}
-	while (ls.folders)
+	cur = ls.folders;
+	while (cur)
 	{
-		file = (t_file *)ls.folders->content;
-		ft_ls_read(&ls, &(ls.files), file->name, file->path, 0, 1);
-		ls.folders = ls.folders->next;
+		file = (t_file *)cur->content;
+		ft_show_dir(cur);
+		cur = cur->next;
 	}
 	return (0);
 }

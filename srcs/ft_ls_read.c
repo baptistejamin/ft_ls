@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:32:37 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/14 15:03:00 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/15 13:12:13 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,32 +45,61 @@ int		ft_can_walk(t_file *file)
 	return (0);
 }
 
-void	ft_ls_read(t_ls *ls, t_list **list, char *name, char *path, int level, int should_walk)
+/*void	ft_ls_read_dir2(t_ls *ls, t_list **list, char *name, char *path, int level)
 {
 	char						*new_path;
+	char						*new_name;
 	struct dirent		*dirent;
 	t_file					*file;
 	t_list					*new;
 
+
 	file = ft_ls_init_file(ls, level, name, path);
-	//printf("ft_ls_read: %s\n", file->name);
+	if (file->dir == NULL && file->type == IS_DIR)
+		file->has_permission = 0;
+
 	while (file->type == IS_DIR && file->dir && ft_can_walk(file) &&
 		(dirent = readdir(file->dir)) != NULL)
 	{
 		new_path = ft_strnew(1);
 		new_path = ft_strjoin(path, "/");
 		new_path = ft_strfjoin(new_path, dirent->d_name);
-		ft_ls_read(ls, &(file->files), dirent->d_name, new_path, level + 1, should_walk);
+		new_name = ft_strnew(ft_strlen(dirent->d_name));
+		new_name = ft_strcpy(new_name, dirent->d_name);
+		ft_ls_read_dir(ls, &(file->files), new_name, new_path, level + 1);
 	}
-	if (file->dir == NULL && file->type == IS_DIR)
-		file->has_permission = 0;
-	if (file->dir)
-		closedir(file->dir);
-	ft_ls_sort(ls, &(file->files));
 	new = ft_lstnew(file, sizeof(t_file));
 	ft_lstadd(list, new);
-	if (!should_walk || (file->type == IS_DIR && ft_can_walk(file)))
-		ft_simple_show(new);
+	ft_ls_sort(ls, list);
+	if (file->dir)
+		closedir(file->dir);
+}*/
+
+void	ft_ls_read_dir(t_list *elem)
+{
+	char						*new_path;
+	char						*new_name;
+	struct dirent		*dirent;
+	t_file					*new_file;
+	t_file					*file;
+	t_list					*new;
+
+	file = elem->content;
+	while (file->type == IS_DIR && file->dir && ft_can_walk(file) &&
+		(dirent = readdir(file->dir)) != NULL)
+	{
+		new_path = ft_strnew(1);
+		new_path = ft_strjoin(file->path, "/");
+		new_path = ft_strfjoin(new_path, dirent->d_name);
+		new_name = ft_strnew(ft_strlen(dirent->d_name));
+		new_name = ft_strcpy(new_name, dirent->d_name);
+		new_file = ft_ls_init_file(file->ls, file->level + 1, new_name, new_path);
+		new = ft_lstnew(new_file, sizeof(t_file));
+		ft_lstadd(&(file->files), new);
+	}
+	ft_ls_sort(file->ls, &(file->files));
+	if (file->dir)
+		closedir(file->dir);
 }
 
 void	ft_ls_parse_files(t_ls *ls, int ac, char **av)

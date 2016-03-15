@@ -6,11 +6,11 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/04 11:32:47 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/11 19:03:54 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/14 18:59:03 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 #include <stdlib.h>
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))

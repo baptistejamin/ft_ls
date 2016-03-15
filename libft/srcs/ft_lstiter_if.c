@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter_if.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 14:33:54 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/14 18:59:01 by bjamin           ###   ########.fr       */
+/*   Created: 2015/12/04 11:31:19 by bjamin            #+#    #+#             */
+/*   Updated: 2016/03/14 19:01:52 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <stdlib.h>
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	ft_lstiter_if(t_list *lst, void (*f)(t_list *e), int (*g)(t_list *e))
 {
-	unsigned char *tmp;
-
-	tmp = (unsigned char *)malloc(sizeof(unsigned char) * len);
-	if (!tmp)
-		return (NULL);
-	ft_memcpy(tmp, src, len);
-	ft_memcpy(dst, tmp, len);
-	free(tmp);
-	return (dst);
+	while (lst)
+	{
+		if (g(lst))
+			f(lst);
+		lst = lst->next;
+	}
 }
