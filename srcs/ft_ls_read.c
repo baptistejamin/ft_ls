@@ -23,12 +23,11 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 	file->first_level = is_first_level;
 	file->name = name;
 	file->path = path;
-	file->exists = (stat(path, &file->stat) == -1) ? 0 : 1;
-	file->dir = opendir(path);
+	file->exists = (lstat(path, &file->stat) == -1) ? 0 : 1;
+	file->type = file->stat.st_mode & S_IFMT;
+	file->dir = NULL;
 	file->type = file->stat.st_mode & S_IFMT;
 	file->has_permission = 1;
-	if (file->type == IS_DIR && file->dir == NULL)
-		file->has_permission = 0;
 	return (file);
 }
 
@@ -57,6 +56,9 @@ void	ft_ls_read_dir(t_list *elem)
 	t_list					*new;
 
 	file = elem->content;
+	file->dir = opendir(file->path);
+	if (file->type == IS_DIR && file->dir == NULL)
+		file->has_permission = 0;
 	while (file->type == IS_DIR && file->dir && ft_can_walk(file) &&
 		(dirent = readdir(file->dir)) != NULL)
 	{
@@ -69,9 +71,9 @@ void	ft_ls_read_dir(t_list *elem)
 		new = ft_lstnew(new_file, sizeof(t_file));
 		ft_lstadd(&(file->files), new);
 	}
-	ft_ls_sort(file->ls, &(file->files));
 	if (file->dir)
 		closedir(file->dir);
+	ft_ls_sort(file->ls, &(file->files));
 }
 
 

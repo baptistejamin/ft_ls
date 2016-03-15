@@ -43,8 +43,8 @@ void free_file(void *content, size_t content_size)
 		free(file->name);
 	if (file->path)
 		free(file->path);
-	if (file->type == IS_DIR && file->dir)
-		free(file->dir);
+	//if (file->type == IS_DIR && file->dir)
+	//	free(file->dir);
 	content_size = 0;
 }
 
@@ -79,5 +79,8 @@ void	ft_show_dir(t_list *elem)
 		else
 			ft_lstiter(file->files, &ft_show_dir);
 	}
-	ft_lstdel(&(file->files), &free_file);
+	if (file->files)
+		ft_lstdel(&(file->files), &free_file);
+//	if (file)
+//		ft_lstdelone(&elem, &free_file);
 }
