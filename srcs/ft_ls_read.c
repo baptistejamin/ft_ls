@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:32:37 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/15 13:59:23 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/16 15:49:50 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,22 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 	file->exists = (lstat(path, &file->stat) == -1) ? 0 : 1;
 	file->type = file->stat.st_mode & S_IFMT;
 	file->has_permission = 1;
+	file->err = 0;
 	file->owner = getpwuid(file->stat.st_uid) ?
 		ft_strjoin("", getpwuid(file->stat.st_uid)->pw_name) :
 		ft_strjoin("", ft_itoa(file->stat.st_uid));
-	file->group =  getgrgid(file->stat.st_gid) ?
+	file->group = getgrgid(file->stat.st_gid) ?
 		ft_strjoin("", getgrgid(file->stat.st_gid)->gr_name) :
 		ft_strjoin("", ft_itoa(file->stat.st_gid));
-	file->major = (file->type == IS_CHAR || file->type == IS_BLOCK) ? (int)major(file->stat.st_rdev) : 0;
-	file->minor = (file->type == IS_CHAR || file->type == IS_BLOCK) ? (int)minor(file->stat.st_rdev) : 0;
+	file->major = (file->type == IS_CHAR || file->type == IS_BLOCK) ?
+		(int)MAJOR(file->stat.st_rdev) : 0;
+	file->minor = (file->type == IS_CHAR || file->type == IS_BLOCK) ?
+		(int)MINOR(file->stat.st_rdev) : 0;
 	if (file->type == IS_LINK)
-  {
-  	file->lname = ft_strnew(257);
-  	readlink(file->path, file->lname, sizeof(file->lname) - 1);
-  }
+	{
+		file->lname = ft_strnew(257);
+		readlink(file->path, file->lname, sizeof(file->lname) - 1);
+	}
 	return (file);
 }
 
@@ -80,13 +83,15 @@ void	ft_ls_read_dir(t_list *elem)
 		new_name = ft_strcpy(new_name, dirent->d_name);
 		new_file = ft_ls_init_file(file->ls, 0, new_name, new_path);
 		new = ft_lstnew(new_file, sizeof(t_file));
-		ft_lstadd(&(file->files), new);
+		if (new_file->name[0] != '.' || file->ls->options.is_all_files)
+			ft_lstadd(&(file->files), new);
 	}
+	if (file->type == IS_DIR && file->dir == NULL)
+		file->err = errno;
 	if (file->dir)
 		closedir(file->dir);
 	ft_ls_sort(file->ls, &(file->files));
 }
-
 
 void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
 {

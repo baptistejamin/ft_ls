@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 18:24:29 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/15 13:49:49 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/16 15:33:12 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@
 # include <pwd.h>
 # include <time.h>
 # include <unistd.h>
+#include 	<errno.h>
 
 # define MONTH(m)	((m) * 30 * 24 * 60 * 60)
+# define MAJOR(m)	((__int32_t)(((__uint32_t)(m)) >> 24) & 0xff)
+# define MINOR(m)	((__int32_t)((m) & 0xffffff))
 
 typedef struct	s_ls_options {
 	int						is_full_show;
@@ -37,7 +40,7 @@ typedef struct	s_ls_options {
 typedef struct	s_ls {
 	t_ls_options	options;
 	int						args_start_index;
-	int 					first_processed;
+	int						first_processed;
 	t_list				*non_folders;
 	t_list				*folders;
 	t_list				*files;
@@ -55,33 +58,34 @@ enum	e_type {
 };
 
 typedef struct	s_file_sizes {
-	int 					nlink_spaces;
-	int 					group_spaces;
-	int 					owner_spaces;
-	int 					date_spaces;
-	int 					size_spaces;
-	int 					major_spaces;
-	int 					minor_spaces;
-	long long 		total;
+	int						nlink_spaces;
+	int						group_spaces;
+	int						owner_spaces;
+	int						date_spaces;
+	int						size_spaces;
+	int						major_spaces;
+	int						minor_spaces;
+	long long			total;
 }								t_file_sizes;
 
 typedef struct	s_file {
 	int						first_level;
 	char					*name;
-	char 					*lname;
+	char					*lname;
 	char					*path;
-	char 					*owner;
-	char 					*group;
+	char					*owner;
+	char					*group;
 	int						exists;
+	int						err;
 	int						has_permission;
 	struct stat		stat;
-	t_file_sizes  sizes;
+	t_file_sizes	sizes;
 	enum e_type		type;
 	DIR						*dir;
 	t_list				*files;
 	t_ls					*ls;
-	int 					minor;
-	int 					major;
+	int						minor;
+	int						major;
 }								t_file;
 
 void						ft_ls_parse_files(t_ls *ls, int ac, char **av);
