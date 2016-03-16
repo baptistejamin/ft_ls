@@ -19,6 +19,12 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>
+# include <grp.h>
+# include <pwd.h>
+# include <time.h>
+# include <unistd.h>
+
+# define MONTH(m)	((m) * 30 * 24 * 60 * 60)
 
 typedef struct	s_ls_options {
 	int						is_full_show;
@@ -48,17 +54,34 @@ enum	e_type {
 	IS_SOCK = S_IFSOCK
 };
 
+typedef struct	s_file_sizes {
+	int 					nlink_spaces;
+	int 					group_spaces;
+	int 					owner_spaces;
+	int 					date_spaces;
+	int 					size_spaces;
+	int 					major_spaces;
+	int 					minor_spaces;
+	long long 		total;
+}								t_file_sizes;
+
 typedef struct	s_file {
 	int						first_level;
 	char					*name;
+	char 					*lname;
 	char					*path;
+	char 					*owner;
+	char 					*group;
 	int						exists;
 	int						has_permission;
 	struct stat		stat;
+	t_file_sizes  sizes;
 	enum e_type		type;
 	DIR						*dir;
 	t_list				*files;
 	t_ls					*ls;
+	int 					minor;
+	int 					major;
 }								t_file;
 
 void						ft_ls_parse_files(t_ls *ls, int ac, char **av);
@@ -70,12 +93,32 @@ void						ft_ls_errors_usage();
 void						ft_ls_errors_no_exists(t_file *file);
 void						ft_ls_errors_no_permission(t_file *file);
 void						ft_ls_read_dir(t_list *elem);
-//void						ft_ls_read_dir(t_ls *ls, t_list **list, char *name, char *path, int level);
 void						ft_ls_sort(t_ls *ls, t_list **list);
 void						ft_show_dir(t_list *elem);
+void						ft_show_rights(t_file *file);
 void						ft_show_file(t_list *elem);
-void						ft_process_files(t_list *elem);
+void						ft_show_int(int value, int max_space);
+void 						ft_show_str(char *str, int max_space);
+void						ft_show_date(t_file *file);
+void						ft_show_size(t_file *file);
+int							ft_can_walk(t_file *file);
+void        		get_max_values(t_list *elem);
+int      			  get_max_value(t_list *elem, int (f)(t_list *e));
+void        		get_max_nlink(t_list *elem);
+void       		 	get_max_group(t_list *elem);
+void        		get_max_owner(t_list *elem);
+void    		    get_max_date(t_list *elem);
+void        		get_max_size(t_list *elem);
+int 					 	get_date_size(t_list *elem);
+int  						get_minor_size(t_list *elem);
+int  						get_major_size(t_list *elem);
+int  						get_size(t_list *elem);
+long long       get_total(t_list *elem);
 void						*get_name(t_list *elem);
+void  					*get_time(t_list *elem);
+int  						get_nlink_size(t_list *elem);
+int  						get_group_size(t_list *elem);
+int  						get_owner_size(t_list *elem);
 int							cmp_asc(void *a, void *b);
 
 #endif

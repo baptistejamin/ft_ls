@@ -13,14 +13,6 @@
 #include <ft_ls.h>
 #include <stdio.h>
 
-void	*get_time(t_list *elem)
-{
-	t_file *file;
-
-	file = elem->content;
-	return (&file->stat.st_mtime);
-}
-
 int		time_asc(void *a, void *b)
 {
 	time_t time_a;
@@ -29,14 +21,6 @@ int		time_asc(void *a, void *b)
 	time_a = *(time_t*)a;
 	time_b = *(time_t*)b;
 	return (time_a > time_b);
-}
-
-void	*get_name(t_list *elem)
-{
-	t_file *file;
-
-	file = elem->content;
-	return (file->name);
 }
 
 int		cmp_asc(void *a, void *b)

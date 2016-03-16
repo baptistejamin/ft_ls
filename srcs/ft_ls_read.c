@@ -25,9 +25,20 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 	file->path = path;
 	file->exists = (lstat(path, &file->stat) == -1) ? 0 : 1;
 	file->type = file->stat.st_mode & S_IFMT;
-	file->dir = NULL;
-	file->type = file->stat.st_mode & S_IFMT;
 	file->has_permission = 1;
+	file->owner = getpwuid(file->stat.st_uid) ?
+		ft_strjoin("", getpwuid(file->stat.st_uid)->pw_name) :
+		ft_strjoin("", ft_itoa(file->stat.st_uid));
+	file->group =  getgrgid(file->stat.st_gid) ?
+		ft_strjoin("", getgrgid(file->stat.st_gid)->gr_name) :
+		ft_strjoin("", ft_itoa(file->stat.st_gid));
+	file->major = (file->type == IS_CHAR || file->type == IS_BLOCK) ? (int)major(file->stat.st_rdev) : 0;
+	file->minor = (file->type == IS_CHAR || file->type == IS_BLOCK) ? (int)minor(file->stat.st_rdev) : 0;
+	if (file->type == IS_LINK)
+  {
+  	file->lname = ft_strnew(257);
+  	readlink(file->path, file->lname, sizeof(file->lname) - 1);
+  }
 	return (file);
 }
 
