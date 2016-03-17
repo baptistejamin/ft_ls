@@ -112,10 +112,7 @@ void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
 	}
 	while (i < ac)
 	{
-		if (ft_strcmp(av[i], "--") == 0)
-			file = ft_ls_init_file(ls, 1, ".", ".");
-		else
-			file = ft_ls_init_file(ls, 1, av[i], av[i]);
+		file = ft_ls_init_file(ls, 1, av[i], av[i]);
 		new = ft_lstnew(file, sizeof(t_file));
 		if (file->type == IS_DIR)
 			ft_lstadd(&(ls->folders), new);

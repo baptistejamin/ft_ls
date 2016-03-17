@@ -44,13 +44,13 @@ void	ft_ls_parse_options(t_ls *ls, int ac, char **av)
 	int n;
 
 	i = 1;
-	ls->args_start_index = i;
-	while (i < ac)
+	ls->args_start_index = 1;
+	while ((i < ac) && av[i][0] == '-')
 	{
 		n = 1;
-		if (av[i][0] != '-' && av[i][1] != '-')
+		if (ft_strcmp(av[i], "--") == 0)
 		{
-			ls->args_start_index = i;
+			ls->args_start_index++;
 			return ;
 		}
 		while (av[i][0] == '-' && av[i][1] != '-' && av[i][n])
@@ -60,5 +60,6 @@ void	ft_ls_parse_options(t_ls *ls, int ac, char **av)
 			n++;
 		}
 		i++;
+		ls->args_start_index = i;
 	}
 }

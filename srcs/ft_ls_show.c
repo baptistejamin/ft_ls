@@ -63,6 +63,16 @@ void	ft_show_str(char *str, int max_space)
 	ft_putstr("  ");
 }
 
+void  ft_show_right_execution(t_file *file, int mode_a, int mode_b, char *def)
+{
+	if (!(file->stat.st_mode & mode_a) && (file->stat.st_mode & mode_b))
+		ft_putchar(def[0]);
+	else if ((file->stat.st_mode & mode_a) && (file->stat.st_mode & mode_b))
+		ft_putchar(def[1]);
+	else
+		ft_putchar((file->stat.st_mode & mode_a) ? def[2] : def[3]);
+}
+
 void	ft_show_rights(t_file *file)
 {
 	ft_putstr(file->type == IS_DIR ? "d" : "");
@@ -74,13 +84,13 @@ void	ft_show_rights(t_file *file)
 	ft_putstr(file->type == IS_SOCK ? "s" : "");
 	ft_putchar((file->stat.st_mode & S_IRUSR) ? 'r' : '-');
 	ft_putchar((file->stat.st_mode & S_IWUSR) ? 'w' : '-');
-	ft_putchar((file->stat.st_mode & S_IXUSR) ? 'x' : '-');
+	ft_show_right_execution(file, S_IXUSR, S_ISUID, "Ssx-");
 	ft_putchar((file->stat.st_mode & S_IRGRP) ? 'r' : '-');
 	ft_putchar((file->stat.st_mode & S_IWGRP) ? 'w' : '-');
-	ft_putchar((file->stat.st_mode & S_IXGRP) ? 'x' : '-');
+	ft_show_right_execution(file, S_IXGRP, S_IXGRP, "Ssx-");
 	ft_putchar((file->stat.st_mode & S_IROTH) ? 'r' : '-');
 	ft_putchar((file->stat.st_mode & S_IWOTH) ? 'w' : '-');
-	ft_putchar((file->stat.st_mode & S_IXOTH) ? 'x' : '-');
+	ft_show_right_execution(file, S_IXOTH, S_ISVTX, "Ttx-");
 	ft_putstr("  ");
 }
 
@@ -93,9 +103,9 @@ void	ft_show_date(t_file *file)
 	str = ctime(&file->stat.st_mtime);
 	if (file->stat.st_mtime > now || (now - MONTH(6)) > file->stat.st_mtime)
 	{
-		write(1, ft_strsub(str, 8, 2), 2);
-		ft_putstr(" ");
 		write(1, ft_strsub(str, 4, 6), 3);
+		ft_putstr(" ");
+		write(1, ft_strsub(str, 8, 2), 2);
 		ft_putstr(" ");
 		//if (file->sizes.date_spaces)
 		ft_putstr(" ");
@@ -135,10 +145,7 @@ void	ft_show_size(t_file *file)
 	else
 	{
 		if ((file->sizes.minor_spaces > 0 || file->sizes.major_spaces > 0))
-		{
-			//printf("spaces = %d\n", file->sizes.minor_spaces + file->sizes.major_spaces);
 			ft_show_int(file->stat.st_size, file->sizes.minor_spaces + file->sizes.major_spaces + 3);
-		}
 		else
 			ft_show_int(file->stat.st_size, file->sizes.size_spaces);
 	}
@@ -147,11 +154,33 @@ void	ft_show_size(t_file *file)
 void	ft_ls_show_dir_name(t_list *elem)
 {
 	t_file *file;
+	int should_show;
 
 	file = elem->content;
-	if ((file->files || !file->has_permission) &&
-		(file->ls->n_files > 1 ||
+	should_show = 1;
+
+
+	//TO show empty files on -R
+
+	//printf("file->name %s, level %d\n", file->name, file->first_level);
+
+	if (file->ls->n_files == 1 && !file->ls->first_processed)
+		should_show = 0;
+	if (!file->first_level && !file->ls->options.is_recursive)
+		should_show = 0;
+	if (file->ls->options.is_all_files && !file->files && file->has_permission)
+		should_show = 0;
+
+	//Si n_files == 1 && !file->ls->first_processed
+	//	stop
+
+	//Si m
+
+	/*if (((!file->ls->options.is_recursive && file->files) || file->ls->options.is_recursive || !file->has_permission) &&
+		(file->ls->n_files > 1 || (!file->ls->options.is_recursive) ||
 		(!file->first_level && file->ls->options.is_recursive)))
+		*/
+	if (should_show)
 	{
 		if (file->ls->first_processed)
 			ft_putstr("\n");
@@ -160,8 +189,7 @@ void	ft_ls_show_dir_name(t_list *elem)
 	}
 	if (!file->has_permission && (file->files || file->ls->options.is_recursive))
 		ft_ls_errors_no_permission(file);
-	if (file->files && file->files && file->files->next &&
-		file->files->next->next && file->ls->options.is_full_show)
+	if (file->files && file->ls->options.is_full_show)
 	{
 		ft_putstr("total ");
 		ft_putnbr(file->sizes.total);
