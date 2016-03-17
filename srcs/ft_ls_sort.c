@@ -30,6 +30,7 @@ int		cmp_asc(void *a, void *b)
 
 void	ft_ls_sort(t_ls *ls, t_list **list)
 {
+	ft_lstsort(list, &cmp_asc, &get_name);
 	if (ls->options.is_ordered_by_time)
 		ft_lstsort(list, &time_asc, &get_time);
 	else

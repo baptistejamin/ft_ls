@@ -14,7 +14,7 @@
 
 void	ft_ls_errors_wrong_option(char option)
 {
-	ft_putstr_fd("ft_ls: illegal option -- ", 2);
+	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(option, 2);
 	ft_putchar_fd('\n', 2);
 	ft_ls_errors_usage();
@@ -23,14 +23,14 @@ void	ft_ls_errors_wrong_option(char option)
 
 void	ft_ls_errors_no_exists(t_file *file)
 {
-	ft_putstr_fd("ft_ls: ", 2);
+	ft_putstr_fd("ls: ", 2);
 	ft_putstr_fd(file->name, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 }
 
 void	ft_ls_errors_no_permission(t_file *file)
 {
-	ft_putstr_fd("ft_ls: ", 2);
+	ft_putstr_fd("ls: ", 2);
 	ft_putstr_fd(file->name, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(strerror(file->err), 2);
@@ -38,6 +38,6 @@ void	ft_ls_errors_no_permission(t_file *file)
 
 void	ft_ls_errors_usage(void)
 {
-	ft_putstr_fd("usage: ft_ls [-Ralrt] [file ...]", 2);
+	ft_putstr_fd("usage: ls [-RUaglrtu1] [file ...]", 2);
 	ft_putchar_fd('\n', 2);
 }

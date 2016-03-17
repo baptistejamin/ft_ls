@@ -18,9 +18,9 @@ void	ft_show_file(t_list *elem)
 	t_file *file;
 
 	file = elem->content;
-	file->ls->first_processed = 1;
 	if (!file->exists)
 		return (ft_ls_errors_no_exists(file));
+	file->ls->first_processed = 1;
 	if (!file->ls->options.is_full_show)
 		ft_putendl(file->name);
 	else
@@ -28,9 +28,10 @@ void	ft_show_file(t_list *elem)
 		ft_show_rights(file);
 		ft_show_int(file->stat.st_nlink, file->sizes.nlink_spaces);
 		ft_show_str(file->owner, file->sizes.owner_spaces);
-		ft_show_str(file->group, file->sizes.group_spaces);
+		if (!file->ls->options.skip_group)
+			ft_show_str(file->group, file->sizes.group_spaces);
 		ft_show_size(file);
-		ft_show_date(file);
+		ft_show_date(elem);
 		ft_putstr(file->name);
 		if (file->type == IS_LINK)
 		{
@@ -87,21 +88,25 @@ void	ft_show_rights(t_file *file)
 	ft_show_right_execution(file, S_IXUSR, S_ISUID, "Ssx-");
 	ft_putchar((file->stat.st_mode & S_IRGRP) ? 'r' : '-');
 	ft_putchar((file->stat.st_mode & S_IWGRP) ? 'w' : '-');
-	ft_show_right_execution(file, S_IXGRP, S_IXGRP, "Ssx-");
+	ft_show_right_execution(file, S_IXGRP, S_ISGID, "Ssx-");
 	ft_putchar((file->stat.st_mode & S_IROTH) ? 'r' : '-');
 	ft_putchar((file->stat.st_mode & S_IWOTH) ? 'w' : '-');
 	ft_show_right_execution(file, S_IXOTH, S_ISVTX, "Ttx-");
 	ft_putstr("  ");
 }
 
-void	ft_show_date(t_file *file)
+void	ft_show_date(t_list *elem)
 {
 	char		*str;
 	time_t	now;
+	time_t  date;
+	t_file *file;
 
+	file = elem->content;
 	now = time(0);
-	str = ctime(&file->stat.st_mtime);
-	if (file->stat.st_mtime > now || (now - MONTH(6)) > file->stat.st_mtime)
+	date = *((time_t *)get_time(elem));
+	str = ctime(&date);
+	if (date > now || (now - MONTH(6)) > date)
 	{
 		write(1, ft_strsub(str, 4, 6), 3);
 		ft_putstr(" ");
@@ -186,8 +191,10 @@ void	ft_ls_show_dir_name(t_list *elem)
 			ft_putstr("\n");
 		ft_putstr(file->path);
 		ft_putstr(":\n");
+		//To check
+		file->ls->first_processed = 1;
 	}
-	if (!file->has_permission && (file->files || file->ls->options.is_recursive))
+	if (!file->has_permission && (file->files || file->ls->options.is_recursive || file->first_level))
 		ft_ls_errors_no_permission(file);
 	if (file->files && file->ls->options.is_full_show)
 	{

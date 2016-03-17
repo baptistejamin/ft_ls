@@ -14,6 +14,10 @@ void  *get_time(t_list *elem)
 	t_file *file;
 
 	file = elem->content;
+	if (file->ls->options.time_last_access)
+		return (&file->stat.st_atime);
+	else if (file->ls->options.time_creation)
+		return (&file->stat.st_ctime);
 	return (&file->stat.st_mtime);
 }
 
@@ -39,16 +43,6 @@ int  get_owner_size(t_list *elem)
 
 	file = elem->content;
 	return (ft_strlen(file->owner));
-}
-
-int  get_date_size(t_list *elem)
-{
-	t_file *file;
-	time_t now;
-
-	now = time(0);
-	file = elem->content;
-	return (file->stat.st_mtime > now || (now - MONTH(6)) > file->stat.st_mtime);
 }
 
 int  get_minor_size(t_list *elem)

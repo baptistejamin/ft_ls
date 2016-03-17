@@ -12,33 +12,35 @@
 
 #Define the program
 NAME			= ft_ls
-_SRC			= ft_ls.c ft_ls_debug.c ft_ls_options.c  ft_ls_errors.c \
+LIB				=	./libft/libft.a
+_SRC			= 	ft_ls.c ft_ls_debug.c ft_ls_options.c  ft_ls_errors.c \
 					ft_ls_read.c ft_ls_sort.c ft_ls_show.c ft_ls_sizes.c ft_ls_getters.c
-
+INCLUDES		= -I./libft/includes/ -I./includes/
 SRC				= $(addprefix srcs/,$(_SRC))
-INCLUDE   		= includes
-VPATH			= SRC INCLUDE
-CFLAGS			= -Wall -Wextra -Werror -g
+OBJ				= $(SRC:.c=.o)
+CFLAGS			= -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME):
-	@mkdir bin
-	@make -C libft
-	@gcc $(CFLAGS) $(SRC) -Llibft -lft -Iincludes -Ilibft/includes -o $(NAME)
+$(NAME): $(OBJ)
+	make -C ./libft/
+	@gcc $(CFLAGS) $(OBJ) $(LIB) $(INCLUDES) -o $(NAME)
 	@echo $(NAME)" compiled"
 
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
+
+.PHONY: clean fclean re
+
 clean:
+	@rm -f $(OBJ)
 	@make clean -C libft
-	@/bin/rm -rf bin
 	@echo "Clean all .o files"
 
-fclean:
+fclean:	clean
 	@make fclean -C libft
-	@/bin/rm -rf bin
 	@/bin/rm -rf $(NAME)
 	@echo "Clean all .o and .a"
 
 re: fclean all
-
-.PHONY: all, clean, fclean, re

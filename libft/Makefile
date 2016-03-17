@@ -12,7 +12,7 @@
 
 
 #Define the libft
-NAME			= libft.a
+LIB				= libft.a
 _SRC			= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 					ft_isprint.c ft_toupper.c ft_tolower.c ft_strlen.c \
 					ft_strcmp.c ft_strncmp.c ft_strcpy.c ft_strncpy.c \
@@ -32,24 +32,28 @@ _SRC			= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 					ft_strfjoin.c get_next_line.c ft_lstiter_if.c ft_lstsort.c ft_lstrev.c
 
 SRC				= $(addprefix srcs/,$(_SRC))
-O_FILES		= $(patsubst %.c,%.o, $(_SRC))
-CFLAGS				= -Wall -Wextra -Werror
+INCLUDES		= ./includes/
+OBJ     		= $(SRC:.c=.o)
+CFLAGS			= -Wall -Wextra -Werror
 
-all: $(NAME)
+all: $(LIB)
 
-$(NAME):
-	@gcc -c $(CFLAGS) $(SRC) -I includes
-	@ar rc $(NAME) $(O_FILES)
-	@ranlib $(NAME)
+$(LIB):	$(OBJ)
+	@ar rc $(LIB) $(OBJ)
+	@ranlib $(LIB)
 	@echo "libft.a compiled"
 
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDES)
+
+.PHONY: clean fclean re
+
 clean:
-	@rm -rf $(O_FILES)
+	@rm -rf $(OBJ)
 	@echo "Clean all .o files"
 
-fclean:
-	@rm -rf $(O_FILES)
-	@rm -rf $(NAME)
+fclean: clean
+	@rm -rf $(LIB)
 	@echo "Clean all .o and .a"
 
 re: fclean all

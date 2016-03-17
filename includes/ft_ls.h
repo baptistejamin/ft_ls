@@ -30,11 +30,15 @@
 # define MINOR(m)	((__int32_t)((m) & 0xffffff))
 
 typedef struct	s_ls_options {
+	int 					is_raw;
 	int						is_full_show;
 	int						is_recursive;
 	int						is_all_files;
 	int						is_reverse;
 	int						is_ordered_by_time;
+	int						time_last_access;
+	int						time_creation;
+	int						skip_group;
 }								t_ls_options;
 
 typedef struct	s_ls {
@@ -103,7 +107,7 @@ void						ft_show_rights(t_file *file);
 void						ft_show_file(t_list *elem);
 void						ft_show_int(int value, int max_space);
 void 						ft_show_str(char *str, int max_space);
-void						ft_show_date(t_file *file);
+void						ft_show_date(t_list *elem);
 void						ft_show_size(t_file *file);
 int							ft_can_walk(t_file *file);
 void        		get_max_values(t_list *elem);

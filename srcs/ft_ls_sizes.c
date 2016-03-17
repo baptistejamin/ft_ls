@@ -42,7 +42,6 @@ void		get_max_values(t_list *elem)
 		file->sizes.nlink_spaces = get_max_value(elem, &get_nlink_size);
 		file->sizes.group_spaces = get_max_value(elem, &get_group_size);
 		file->sizes.owner_spaces = get_max_value(elem, &get_owner_size);
-		file->sizes.date_spaces = get_max_value(elem, &get_date_size);
 		file->sizes.major_spaces = get_max_value(elem, &get_major_size);
 		file->sizes.minor_spaces = get_max_value(elem, &get_minor_size);
 		file->sizes.size_spaces = get_max_value(elem, &get_size);
