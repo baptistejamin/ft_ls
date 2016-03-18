@@ -13,8 +13,23 @@
 #Define the program
 NAME			= ft_ls
 LIB				=	./libft/libft.a
-_SRC			= 	ft_ls.c ft_ls_debug.c ft_ls_options.c  ft_ls_errors.c \
-					ft_ls_read.c ft_ls_sort.c ft_ls_show.c ft_ls_sizes.c ft_ls_getters.c
+_SRC			= 	ft_ls.c \
+					ft_ls_options.c \
+					ft_ls_errors.c \
+					ft_ls_free.c \
+					getters/ft_ls_getters_size.c \
+					getters/ft_ls_getters_types.c \
+					show/ft_ls_show_date.c \
+					show/ft_ls_show_dir.c \
+					show/ft_ls_show_file.c \
+					show/ft_ls_show_int.c \
+					show/ft_ls_show_rights.c \
+					show/ft_ls_show_size.c \
+					show/ft_ls_show_str.c \
+					ft_ls_read.c \
+					ft_ls_sort.c \
+					ft_ls_sizes.c
+
 INCLUDES		= -I./libft/includes/ -I./includes/
 SRC				= $(addprefix srcs/,$(_SRC))
 OBJ				= $(SRC:.c=.o)

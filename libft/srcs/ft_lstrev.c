@@ -13,20 +13,20 @@
 #include <libft.h>
 #include <stdlib.h>
 
-void ft_lstrev(t_list **list)
+void	ft_lstrev(t_list **list)
 {
-    t_list *prev;
-    t_list *current;
-    t_list *next;
+	t_list	*prev;
+	t_list	*current;
+	t_list	*next;
 
-    prev = NULL;
-    current = *list;
-    while (current != NULL)
-    {
-        next  = current->next;  
-        current->next = prev;   
-        prev = current;
-        current = next;
-    }
-    *list = prev;
+	prev = NULL;
+	current = *list;
+	while (current != NULL)
+	{
+		next = current->next;
+		current->next = prev;
+		prev = current;
+		current = next;
+	}
+	*list = prev;
 }

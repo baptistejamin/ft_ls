@@ -16,7 +16,7 @@
 long long	get_total(t_list *elem)
 {
 	t_file		*file;
-	long long total;
+	long long	total;
 
 	total = 0;
 	while (elem)
@@ -52,8 +52,8 @@ int			get_max_value(t_list *elem, int (f)(t_list *e))
 {
 	t_list	*cur;
 	t_file	*file;
-	int			spaces;
-	int			max;
+	int		spaces;
+	int		max;
 
 	max = 0;
 	cur = elem;

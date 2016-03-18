@@ -20,30 +20,23 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-int	get_next_line_clear(int ret_val, int *ret, char **str, char *buf)
+int		get_next_line_clear(int ret_val, int *ret, char *str, char *buf)
 {
 	*ret = 0;
-	*str = NULL;
+	str = NULL;
 	buf[0] = '\0';
 	return (ret_val);
 }
 
-int	assign_line(char **line, char **str)
-{
-	*line = *str;
-	return (1);
-}
-
-int	get_next_line(int const fd, char **line)
+int		get_next_line(int const fd, char **line)
 {
 	static t_gnl t[256];
 
 	if (line == NULL || BUFF_SIZE <= 0 || fd < 0 || fd > 255 || t[fd].ret < 0)
 		return (-1);
-	if (t[fd].ret == 0 || t[fd].str == NULL)
-		t[fd].str = ft_strnew(1);
-	if (t[fd].ret && t[fd].str && *(t[fd].str) != '\n' &&
-		ft_strchr(t[fd].str, '\n') != NULL)
+	t[fd].str = (t[fd].ret == 0 || t[fd].str == NULL) ?
+		ft_strnew(1) : t[fd].str;
+	if (ft_strchr(t[fd].str, '\n') != NULL)
 		return (ft_strcut(line, &(t[fd].str), '\n'));
 	while ((t[fd].ret = read(fd, t[fd].buf, BUFF_SIZE)) > 0)
 	{
@@ -53,12 +46,12 @@ int	get_next_line(int const fd, char **line)
 			return (ft_strcut(line, &(t[fd].str), '\n'));
 	}
 	if (t[fd].ret < 0)
-		return (get_next_line_clear(-1, &(t[fd].ret), &(t[fd].str), t[fd].buf));
+		return (get_next_line_clear(-1, &(t[fd].ret), t[fd].str, t[fd].buf));
 	if (t[fd].ret == 0 && *(t[fd].str) != '\0')
 	{
 		if (ft_strchr(t[fd].str, '\n') != NULL)
 			return (ft_strcut(line, &(t[fd].str), '\n'));
-		return (assign_line(line, &(t[fd].str)));
+		return (ft_strcut(line, &(t[fd].str), '\0'));
 	}
-	return (get_next_line_clear(0, &(t[fd].ret), &(t[fd].str), t[fd].buf));
+	return (get_next_line_clear(0, &(t[fd].ret), t[fd].str, t[fd].buf));
 }
