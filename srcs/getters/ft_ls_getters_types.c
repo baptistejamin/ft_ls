@@ -32,6 +32,23 @@ void	*get_time(t_list *elem)
 	return (&file->stat.st_mtime);
 }
 
+void	*get_time_nano(t_list *elem)
+{
+	t_file *file;
+
+	file = elem->content;
+	if (file->ls->options.time_last_access)
+		return (&file->stat.st_atimespec);
+	else if (file->ls->options.time_creation)
+		return (&file->stat.st_ctimespec);
+	return (&file->stat.st_mtimespec);
+}
+
+void	*get_elem(t_list *elem)
+{
+	return (elem);
+}
+
 int		get_size(t_list *elem)
 {
 	t_file *file;
@@ -40,14 +57,4 @@ int		get_size(t_list *elem)
 	if (file->type != IS_CHAR && file->type != IS_BLOCK)
 		return (ft_strlen(ft_itoa(file->stat.st_size)));
 	return (0);
-}
-
-int		no_dot_file(t_list *elem)
-{
-	t_file *file;
-
-	file = elem->content;
-	if (file->name[0] == '.')
-		return (0);
-	return (1);
 }

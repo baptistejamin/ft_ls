@@ -132,6 +132,8 @@ int					get_size(t_list *elem);
 long long			get_total(t_list *elem);
 void				*get_name(t_list *elem);
 void				*get_time(t_list *elem);
+void				*get_time_nano(t_list *elem);
+void				*get_elem(t_list *elem);
 int					get_nlink_size(t_list *elem);
 int					get_group_size(t_list *elem);
 int					get_owner_size(t_list *elem);

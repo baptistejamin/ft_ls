@@ -12,6 +12,16 @@
 
 #include <ft_ls.h>
 
+int		no_dot_file(t_list *elem)
+{
+	t_file *file;
+
+	file = elem->content;
+	if (file->name[0] == '.')
+		return (0);
+	return (1);
+}
+
 void	ft_ls_show_dir_name(t_list *elem)
 {
 	t_file	*file;
