@@ -38,10 +38,10 @@ void	*get_time_nano(t_list *elem)
 
 	file = elem->content;
 	if (file->ls->options.time_last_access)
-		return (&file->stat.st_atimespec);
+		return (&file->stat.st_atimespec.tv_nsec);
 	else if (file->ls->options.time_creation)
-		return (&file->stat.st_ctimespec);
-	return (&file->stat.st_mtimespec);
+		return (&file->stat.st_ctimespec.tv_nsec);
+	return (&file->stat.st_mtimespec.tv_nsec);
 }
 
 void	*get_elem(t_list *elem)

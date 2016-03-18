@@ -15,7 +15,8 @@
 void	ft_ls_assert_symlimks(t_file *file)
 {
 	if (file->ls->follow && file->type == IS_LINK
-		&& !file->ls->options.is_full_show)
+		&& !file->ls->options.is_full_show
+		&& !file->ls->options.is_ordered_by_time)
 	{
 		file->exists = (stat(file->path, &file->stat) != -1);
 		if (!file->exists)

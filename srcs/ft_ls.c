@@ -45,8 +45,8 @@ int		main(int ac, char **av)
 	ft_ls_parse_options(&ls, ac, av);
 	ft_ls_parse_files(&ls, ac, av);
 	ft_lstsort(&(ls.errors), &cmp_asc, &get_name);
-	ft_lstsort(&(ls.non_folders), &cmp_asc, &get_name);
-	ft_lstsort(&(ls.folders), &cmp_asc, &get_name);
+	ft_ls_sort(&ls, &ls.non_folders);
+	ft_ls_sort(&ls, &ls.folders);
 	ft_ls_process_files(ls.errors, 0);
 	get_max_values(ls.non_folders);
 	ft_ls_process_files(ls.non_folders, 0);
