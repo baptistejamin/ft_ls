@@ -44,7 +44,7 @@ int		ft_ls_parse_options_helper(t_ls *ls, char option)
 	ls->options.is_recursive = (option == 'R') ? 1 : ls->options.is_recursive;
 	ls->options.is_all_files = (option == 'a') ? 1 : ls->options.is_all_files;
 	ls->options.is_reverse = (option == 'r') ? 1 : ls->options.is_reverse;
-	ls->options.is_ordered_by_time = (option == 't') ? 1 : 0;
+	ls->options.is_ordered_by_time = (option == 't') ? 1 : ls->options.is_ordered_by_time;
 	if (option == 'g')
 	{
 		ls->options.is_full_show = 1;
@@ -70,7 +70,7 @@ void	ft_ls_parse_options(t_ls *ls, int ac, char **av)
 
 	i = 1;
 	ls->args_start_index = 1;
-	while ((i < ac) && (av[i][0] == '-' || ft_strcmp(av[i], "-") == 0))
+	while ((i < ac) && av[i][0] == '-' && ft_strcmp(av[i], "-") != 0)
 	{
 		n = 1;
 		if (ft_strcmp(av[i], "--") == 0)

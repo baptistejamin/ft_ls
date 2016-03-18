@@ -24,8 +24,13 @@ void	ft_ls_errors_wrong_option(char option)
 void	ft_ls_errors_no_exists(t_file *file)
 {
 	ft_putstr_fd("ls: ", 2);
-	ft_putstr_fd(file->name, 2);
+	if (file->name[0] == '\0')
+		ft_putstr_fd("fts_open", 2);
+	else
+		ft_putstr_fd(file->name, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
+	if (file->name[0] == '\0')
+		exit(1);
 }
 
 void	ft_ls_errors_no_permission(t_file *file)

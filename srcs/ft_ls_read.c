@@ -13,7 +13,7 @@
 #include <ft_ls.h>
 #include <stdio.h>
 
-t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
+t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path, int follow)
 {
 	t_file *file;
 
@@ -23,10 +23,17 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 	file->first_level = is_first_level;
 	file->name = name;
 	file->path = path;
-	file->exists = (lstat(path, &file->stat) == -1) ? 0 : 1;
+	file->exists = (lstat(path, &file->stat) != -1);
 	file->type = file->stat.st_mode & S_IFMT;
+	if (follow && file->type == IS_LINK && !ls->options.is_full_show)
+	{
+		file->exists = (stat(path, &file->stat) != -1);
+		if (!file->exists)
+			file->exists = (lstat(path, &file->stat) != -1);
+		else
+			file->type = file->stat.st_mode & S_IFMT;
+	}
 	file->has_permission = 1;
-	file->err = 0;
 	file->owner = getpwuid(file->stat.st_uid) ?
 		ft_strjoin("", getpwuid(file->stat.st_uid)->pw_name) :
 		ft_strjoin("", ft_itoa(file->stat.st_uid));
@@ -40,7 +47,7 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 	if (file->type == IS_LINK)
 	{
 		file->lname = ft_strnew(257);
-		readlink(file->path, file->lname, sizeof(file->lname) - 1);
+		readlink(file->path, file->lname, 256);
 	}
 	return (file);
 }
@@ -81,7 +88,7 @@ void	ft_ls_read_dir(t_list *elem)
 		new_path = ft_strfjoin(new_path, dirent->d_name);
 		new_name = ft_strnew(ft_strlen(dirent->d_name));
 		new_name = ft_strcpy(new_name, dirent->d_name);
-		new_file = ft_ls_init_file(file->ls, 0, new_name, new_path);
+		new_file = ft_ls_init_file(file->ls, 0, new_name, new_path, 0);
 		new = ft_lstnew(new_file, sizeof(t_file));
 		if (new_file->name[0] != '.' || file->ls->options.is_all_files)
 			ft_lstadd(&(file->files), new);
@@ -105,19 +112,21 @@ void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
 	if (ls->n_files == 0)
 	{
 		ls->n_files = 1;
-		file = ft_ls_init_file(ls, 1, ".", ".");
+		file = ft_ls_init_file(ls, 1, ".", ".", 1);
 		new = ft_lstnew(file, sizeof(t_file));
 		ft_lstadd(&(ls->folders), new);
 		return ;
 	}
 	while (i < ac)
 	{
-		file = ft_ls_init_file(ls, 1, av[i], av[i]);
+		file = ft_ls_init_file(ls, 1, av[i], av[i], 1);
 		new = ft_lstnew(file, sizeof(t_file));
 		if (file->type == IS_DIR)
 			ft_lstadd(&(ls->folders), new);
-		else
+		else if (file->exists)
 			ft_lstadd(&(ls->non_folders), new);
+		else
+			ft_lstadd(&(ls->errors), new);
 		i++;
 	}
 }

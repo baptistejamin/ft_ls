@@ -47,7 +47,7 @@ typedef struct	s_ls {
 	int						first_processed;
 	t_list				*non_folders;
 	t_list				*folders;
-	t_list				*files;
+	t_list				*errors;
 	int						n_files;
 }								t_ls;
 
