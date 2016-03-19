@@ -51,10 +51,18 @@ void	*get_elem(t_list *elem)
 
 int		get_size(t_list *elem)
 {
-	t_file *file;
+	t_file	*file;
+	int			len;
+	char		*str;
 
 	file = elem->content;
 	if (file->type != IS_CHAR && file->type != IS_BLOCK)
-		return (ft_strlen(ft_itoa(file->stat.st_size)));
+	{
+		str = ft_itoa(file->stat.st_size);
+		len = ft_strlen(str);
+		if (str)
+			free(str);
+		return (len);
+	}
 	return (0);
 }

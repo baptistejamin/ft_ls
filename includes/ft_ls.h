@@ -120,6 +120,7 @@ void				ft_ls_show_date(t_list *elem);
 void				ft_ls_show_size(t_file *file);
 int					ft_can_walk(t_file *file);
 void				ft_ls_free_file(void *content, size_t content_size);
+void				ft_ls_free_file_one(t_file *file);
 void				get_max_values(t_list *elem);
 int					get_max_value(t_list *elem, int (f)(t_list *e));
 void				get_max_nlink(t_list *elem);

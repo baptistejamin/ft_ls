@@ -17,6 +17,14 @@ void	ft_ls_free_file(void *content, size_t content_size)
 	t_file *file;
 
 	file = content;
+	ft_ls_free_file_one(file);
+	content_size = 0;
+}
+
+void	ft_ls_free_file_one(t_file *file)
+{
+	if (!file)
+		return ;
 	if (file->name)
 		free(file->name);
 	if (file->path)
@@ -27,5 +35,6 @@ void	ft_ls_free_file(void *content, size_t content_size)
 		free(file->group);
 	if (file->type == IS_LINK && file->lname)
 		free(file->lname);
-	content_size = 0;
+	if (file)
+		free(file);
 }

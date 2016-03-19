@@ -14,11 +14,18 @@
 
 void	ft_ls_show_size(t_file *file)
 {
-	int	minor_spaces;
-	int	major_spaces;
+	char	*str;
+	int		minor_spaces;
+	int		major_spaces;
 
-	minor_spaces = ft_strlen(ft_itoa(file->minor));
-	major_spaces = ft_strlen(ft_itoa(file->major));
+	str = ft_itoa(file->minor);
+	minor_spaces = ft_strlen(str);
+	if (str)
+		free(str);
+	str = ft_itoa(file->major);
+	major_spaces = ft_strlen(str);
+	if (str)
+		free(str);
 	if (file->type == IS_CHAR || file->type == IS_BLOCK)
 	{
 		ft_putchar(' ');

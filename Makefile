@@ -33,7 +33,7 @@ _SRC			= 	ft_ls.c \
 INCLUDES		= -I./libft/includes/ -I./includes/
 SRC				= $(addprefix srcs/,$(_SRC))
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -Werror
+CFLAGS			= -Wall -Wextra -Werror -g -ggdb
 
 all: $(NAME)
 

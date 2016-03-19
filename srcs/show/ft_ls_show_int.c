@@ -15,8 +15,14 @@
 void	ft_ls_show_int(int value, int max_space)
 {
 	int		spaces;
+  int   len;
+  char  *str;
 
-	spaces = max_space - ft_strlen(ft_itoa(value));
+  str = ft_itoa(value);
+  len = ft_strlen(str);
+  if (str)
+    free(str);
+	spaces = max_space - len;
 	while (spaces-- > 0)
 		ft_putchar(' ');
 	ft_putnbr(value);
