@@ -58,7 +58,8 @@ void	ft_ls_show_dir(t_list *elem)
 		return ;
 	ft_ls_read_dir(elem);
 	file->sizes.total = get_total(file->files);
-	get_max_values(file->files);
+	if (file->ls->options.is_full_show)
+		get_max_values(file->files);
 	ft_ls_show_dir_name(elem);
 	if (!file->ls->options.is_all_files)
 		ft_lstiter_if(file->files, &ft_ls_show_file, &no_dot_file);
