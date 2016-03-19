@@ -50,7 +50,7 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 		ft_strdup(getpwuid(file->stat.st_uid)->pw_name) :
 		ft_itoa(file->stat.st_uid);
 	file->group = (getgrgid(file->stat.st_gid)) ?
-		ft_strdup(getgrgid(file->stat.st_uid)->gr_name) :
+		ft_strdup(getgrgid(file->stat.st_gid)->gr_name) :
 		ft_itoa(file->stat.st_gid);
 	file->has_permission = 1;
 	file->major = (file->type == IS_CHAR || file->type == IS_BLOCK) ?
