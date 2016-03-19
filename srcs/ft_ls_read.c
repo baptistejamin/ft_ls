@@ -32,24 +32,6 @@ void	ft_ls_assert_symlimks(t_file *file)
 	}
 }
 
-void	ft_ls_assert_group_rights(t_file *file)
-{
-	struct passwd	*pw;
-	struct group	*gr;
-
-	pw = getpwuid(file->stat.st_uid);
-	gr = getgrgid(file->stat.st_gid);
-	if (pw)
-		file->owner = ft_strdup(pw->pw_name);
-	else
-		file->owner = ft_itoa(file->stat.st_uid);
-	if (gr)
-		file->group = ft_strdup(gr->gr_name);
-	else
-		file->group = ft_itoa(file->stat.st_gid);
-}
-
-
 t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 {
 	t_file *file;
@@ -64,7 +46,12 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 	file->type = 0;
 	file->type = file->stat.st_mode & S_IFMT;
 	ft_ls_assert_symlimks(file);
-	ft_ls_assert_group_rights(file);
+	file->owner = (getpwuid(file->stat.st_uid)) ?
+		ft_strdup(getpwuid(file->stat.st_uid)->pw_name) :
+		ft_itoa(file->stat.st_uid);
+	file->group = (getgrgid(file->stat.st_gid)) ?
+		ft_strdup(getgrgid(file->stat.st_uid)->gr_name) :
+		ft_itoa(file->stat.st_gid);
 	file->has_permission = 1;
 	file->major = (file->type == IS_CHAR || file->type == IS_BLOCK) ?
 		(int)MAJOR(file->stat.st_rdev) : 0;
@@ -75,8 +62,6 @@ t_file	*ft_ls_init_file(t_ls *ls, int is_first_level, char *name, char *path)
 
 void	ft_ls_read_dir(t_list *elem)
 {
-	char			*new_name;
-	char			*new_path;
 	t_dirent	*dirent;
 	t_file		*new_file;
 	t_file		*file;
@@ -86,25 +71,29 @@ void	ft_ls_read_dir(t_list *elem)
 	if (file->type == IS_DIR && file->dir == NULL)
 		file->has_permission = 0;
 	while (file->type == IS_DIR && file->dir && ft_can_walk(file) &&
-		(dirent = readdir(file->dir)) != NULL)
+		((dirent = readdir(file->dir)) != NULL))
 	{
 		if (dirent->d_name[0] != '.' || file->ls->options.is_all_files)
 		{
-			new_name = ft_strdup(dirent->d_name);
-			new_path = ft_strjoin(file->path, "/");
-			new_path = ft_strfjoin(new_path, dirent->d_name);
-			new_file = ft_ls_init_file(file->ls, 0, new_name, new_path);
+			new_file = ft_ls_init_file(file->ls, 0, ft_strdup(dirent->d_name),
+				ft_strfjoin(ft_strjoin(file->path, "/"), dirent->d_name));
 			ft_lstadd(&(file->files), ft_lstnew(new_file, sizeof(t_file)));
 			if (new_file)
 				free(new_file);
 			new_file = NULL;
 		}
 	}
-	if (file->type == IS_DIR && file->dir == NULL)
-		file->err = errno;
+	file->err = (file->type == IS_DIR && file->dir == NULL) ? errno : 0;
 	if (file->dir)
 		closedir(file->dir);
 	ft_ls_sort(file->ls, &(file->files));
+}
+
+void	ft_ls_parse_files_free(t_file **file)
+{
+	if (*file)
+		free(*file);
+	*file = NULL;
 }
 
 void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
@@ -119,24 +108,19 @@ void	ft_ls_parse_files(t_ls *ls, int ac, char **av)
 		ls->n_files = 1;
 		file = ft_ls_init_file(ls, 1, ft_strdup("."), ft_strdup("."));
 		ft_lstadd(&(ls->folders), ft_lstnew(file, sizeof(t_file)));
-		if (file)
-			free(file);
-		file = NULL;
+		ft_ls_parse_files_free(&file);
 		return ;
 	}
 	while (i < ac)
 	{
 		file = ft_ls_init_file(ls, 1, ft_strdup(av[i]), ft_strdup(av[i]));
-		if (file->type == IS_DIR)
-			ft_lstadd(&(ls->folders), ft_lstnew(file, sizeof(t_file)));
-		else if (file->exists)
-			ft_lstadd(&(ls->non_folders), ft_lstnew(file, sizeof(t_file)));
-		else
+		if (!file->exists)
 			ft_lstadd(&(ls->errors), ft_lstnew(file, sizeof(t_file)));
+		else if (file->type == IS_DIR)
+			ft_lstadd(&(ls->folders), ft_lstnew(file, sizeof(t_file)));
+		else
+			ft_lstadd(&(ls->non_folders), ft_lstnew(file, sizeof(t_file)));
 		i++;
-		if (file)
-			free(file);
-		file = NULL;
+		ft_ls_parse_files_free(&file);
 	}
-	ls->follow = 0;
 }

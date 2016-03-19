@@ -41,7 +41,7 @@ void	ft_ls_process_files(t_list *list, int is_folder)
 		ft_lstdel(&list, &ft_ls_free_file);
 }
 
-int	ft_can_walk(t_file *file)
+int		ft_can_walk(t_file *file)
 {
 	if (file->first_level == 1 && (ft_strcmp(file->name, ".") == 0 ||
 		ft_strcmp(file->name, "..") == 0))
@@ -64,6 +64,7 @@ int		main(int ac, char **av)
 	ft_ls_init_options(&ls);
 	ft_ls_parse_options(&ls, ac, av);
 	ft_ls_parse_files(&ls, ac, av);
+	ls.follow = 0;
 	ft_lstsort(&(ls.errors), &cmp_asc, &get_name);
 	ft_ls_sort(&ls, &ls.non_folders);
 	ft_ls_sort(&ls, &ls.folders);

@@ -52,8 +52,8 @@ void	*get_elem(t_list *elem)
 int		get_size(t_list *elem)
 {
 	t_file	*file;
-	int			len;
-	char		*str;
+	int		len;
+	char	*str;
 
 	file = elem->content;
 	if (file->type != IS_CHAR && file->type != IS_BLOCK)

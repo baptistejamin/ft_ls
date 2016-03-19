@@ -12,20 +12,25 @@
 
 #include <ft_ls.h>
 
-void	ft_ls_show_size(t_file *file)
+int		ft_ls_show_size_get(int nb)
 {
 	char	*str;
+	int		len;
+
+	str = ft_itoa(nb);
+	len = ft_strlen(str);
+	if (str)
+		free(str);
+	return (len);
+}
+
+void	ft_ls_show_size(t_file *file)
+{
 	int		minor_spaces;
 	int		major_spaces;
 
-	str = ft_itoa(file->minor);
-	minor_spaces = ft_strlen(str);
-	if (str)
-		free(str);
-	str = ft_itoa(file->major);
-	major_spaces = ft_strlen(str);
-	if (str)
-		free(str);
+	minor_spaces = ft_ls_show_size_get(file->minor);
+	major_spaces = ft_ls_show_size_get(file->major);
 	if (file->type == IS_CHAR || file->type == IS_BLOCK)
 	{
 		ft_putchar(' ');
