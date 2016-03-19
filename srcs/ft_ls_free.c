@@ -25,7 +25,7 @@ void	ft_ls_free_file(void *content, size_t content_size)
 		free(file->owner);
 	if (file->group)
 		free(file->group);
-	if (file->type == IS_LINK)
+	if (file->type == IS_LINK && file->lname)
 		free(file->lname);
 	content_size = 0;
 }

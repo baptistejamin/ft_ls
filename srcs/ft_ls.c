@@ -34,6 +34,8 @@ void	ft_ls_process_files(t_list *list, int is_folder)
 			ft_ls_show_file(cur);
 		cur = cur->next;
 	}
+	if (list)
+		ft_lstdel(&list, &ft_ls_free_file);
 }
 
 int		main(int ac, char **av)
