@@ -6,7 +6,7 @@
 /*   By: bjamin <bjamin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/23 14:18:30 by bjamin            #+#    #+#             */
-/*   Updated: 2016/03/14 18:58:22 by bjamin           ###   ########.fr       */
+/*   Updated: 2016/03/19 13:55:47 by bjamin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 
 # define BUFF_SIZE 32
 
-typedef struct	s_gnl {
-	int			ret;
-	char		*str;
-	char		buf[BUFF_SIZE + 1];
-}				t_gnl;
+typedef struct		s_gnl
+{
+	int				ret;
+	char			*str;
+	char			buf[BUFF_SIZE + 1];
+}					t_gnl;
 
 typedef struct		s_list
 {
